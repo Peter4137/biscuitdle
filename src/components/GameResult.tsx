@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useGameStore } from '../store/gameStore';
-import { getTimeUntilNextBiscuit } from '../data/biscuits';
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useGameStore } from "../store/gameStore";
+import { getTimeUntilNextBiscuit } from "../data/biscuits";
 
 function GameResult() {
   const { gameStatus, targetBiscuit, attempts, guesses } = useGameStore();
-  const [countdown, setCountdown] = useState('');
+  const [countdown, setCountdown] = useState("");
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -24,23 +24,23 @@ function GameResult() {
 
   const handleShare = async () => {
     const emojiGrid = guesses
-      .map(g => {
-        if (g.isCorrect) return '🍪';
+      .map((g) => {
+        if (g.isCorrect) return "🍪";
         const matches = [
-          g.matches.dietary ? '🟢' : '⚪',
-          g.matches.manufacturer ? '🟢' : '⚪',
-          g.matches.category ? '🟢' : '⚪',
-        ].join('');
+          g.matches.dietary ? "🟢" : "⚪",
+          g.matches.manufacturer ? "🟢" : "⚪",
+          g.matches.category ? "🟢" : "⚪",
+        ].join("");
         return matches;
       })
-      .join('\n');
+      .join("\n");
 
     const text = `🇬🇧 Crumbdle 🍪
-${gameStatus === 'won' ? `Solved in ${attempts}/6!` : 'Better luck tomorrow!'}
+${gameStatus === "won" ? `Solved in ${attempts}/6!` : "Better luck tomorrow!"}
 
 ${emojiGrid}
 
-Play at: crumbdle.co.uk`;
+Play at: crumbdle.com`;
 
     try {
       await navigator.clipboard.writeText(text);
@@ -51,7 +51,7 @@ Play at: crumbdle.co.uk`;
     }
   };
 
-  const isWon = gameStatus === 'won';
+  const isWon = gameStatus === "won";
 
   return (
     <motion.div
@@ -64,15 +64,17 @@ Play at: crumbdle.co.uk`;
         className="result-modal"
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: 'spring', duration: 0.5 }}
+        transition={{ type: "spring", duration: 0.5 }}
       >
-        <h2 className={`result-title ${isWon ? 'won' : 'lost'}`}>
-          {isWon ? '🎉 Jolly Good Show! 🎉' : '😢 Oh Crumbs! 😢'}
+        <h2 className={`result-title ${isWon ? "won" : "lost"}`}>
+          {isWon ? "🎉 Jolly Good Show! 🎉" : "😢 Oh Crumbs! 😢"}
         </h2>
 
         <p className="result-message">
           {isWon
-            ? `Smashing! You identified today's biscuit in ${attempts} ${attempts === 1 ? 'guess' : 'guesses'}!`
+            ? `Smashing! You identified today's biscuit in ${attempts} ${
+                attempts === 1 ? "guess" : "guesses"
+              }!`
             : "Frightfully sorry, but you've run out of guesses. Better luck tomorrow, old chap!"}
         </p>
 
@@ -89,7 +91,7 @@ Play at: crumbdle.co.uk`;
         </div>
 
         <button className="btn-share" onClick={handleShare}>
-          {copied ? 'Copied! 📋' : 'Share Result 🇬🇧'}
+          {copied ? "Copied! 📋" : "Share Result 🇬🇧"}
         </button>
 
         <p className="countdown">
@@ -101,4 +103,3 @@ Play at: crumbdle.co.uk`;
 }
 
 export default GameResult;
-
