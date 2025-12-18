@@ -3,8 +3,8 @@ import { useGameStore } from '../store/gameStore';
 
 function CluesPanel() {
   const { revealedClues, targetBiscuit } = useGameStore();
-  
-  const formatDietary = (dietary) => {
+
+  const formatDietary = (dietary: string[]): string => {
     if (dietary.length === 0) return 'None';
     return dietary.join(', ');
   };
@@ -16,7 +16,7 @@ function CluesPanel() {
         <span>Clues Revealed</span>
       </h2>
       <div className="clue-grid">
-        <motion.div 
+        <motion.div
           className={`clue-item ${revealedClues.dietary ? 'revealed' : ''}`}
           animate={revealedClues.dietary ? { scale: [1, 1.05, 1] } : {}}
           transition={{ duration: 0.4 }}
@@ -26,8 +26,8 @@ function CluesPanel() {
             {revealedClues.dietary ? formatDietary(targetBiscuit.dietary) : '???'}
           </span>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           className={`clue-item ${revealedClues.manufacturer ? 'revealed' : ''}`}
           animate={revealedClues.manufacturer ? { scale: [1, 1.05, 1] } : {}}
           transition={{ duration: 0.4 }}
@@ -37,8 +37,8 @@ function CluesPanel() {
             {revealedClues.manufacturer ? targetBiscuit.manufacturer : '???'}
           </span>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           className={`clue-item ${revealedClues.category ? 'revealed' : ''}`}
           animate={revealedClues.category ? { scale: [1, 1.05, 1] } : {}}
           transition={{ duration: 0.4 }}

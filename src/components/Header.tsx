@@ -8,10 +8,10 @@ function Header() {
         <span>🇬🇧</span>
         <span>🇬🇧</span>
       </div>
-      <motion.div 
+      <motion.div
         className="crown"
         animate={{ y: [0, -6, 0] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
       >
         👑
       </motion.div>

@@ -3,7 +3,7 @@ import { useGameStore } from '../store/gameStore';
 
 function GuessHistory() {
   const { guesses } = useGameStore();
-  
+
   if (guesses.length === 0) return null;
 
   return (
@@ -19,21 +19,13 @@ function GuessHistory() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 }}
             >
-              <span className="guess-emoji">
-                {guess.isCorrect ? '✅' : '❌'}
-              </span>
+              <span className="guess-emoji">{guess.isCorrect ? '✅' : '❌'}</span>
               <span className="guess-text">{guess.name}</span>
               {!guess.isCorrect && (
                 <div className="guess-matches">
-                  {guess.matches.dietary && (
-                    <span className="match-badge">Dietary ✓</span>
-                  )}
-                  {guess.matches.manufacturer && (
-                    <span className="match-badge">Maker ✓</span>
-                  )}
-                  {guess.matches.category && (
-                    <span className="match-badge">Type ✓</span>
-                  )}
+                  {guess.matches.dietary && <span className="match-badge">Dietary ✓</span>}
+                  {guess.matches.manufacturer && <span className="match-badge">Maker ✓</span>}
+                  {guess.matches.category && <span className="match-badge">Type ✓</span>}
                 </div>
               )}
             </motion.li>
