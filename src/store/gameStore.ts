@@ -32,9 +32,10 @@ export const useGameStore = create<GameState>()(
       attempts: 0,
       gameStatus: 'playing',
       revealedClues: {
-        dietary: false,
+        shape: false,
         manufacturer: false,
         category: false,
+        origin: false,
       },
 
       initGame: () => {
@@ -49,9 +50,10 @@ export const useGameStore = create<GameState>()(
             attempts: 0,
             gameStatus: 'playing',
             revealedClues: {
-              dietary: false,
+              shape: false,
               manufacturer: false,
               category: false,
+              origin: false,
             },
           });
         }
@@ -76,9 +78,10 @@ export const useGameStore = create<GameState>()(
         const isCorrect = guessedBiscuit.id === target.id;
 
         const matches = {
-          dietary: guessedBiscuit.dietary.some(d => target.dietary.includes(d)),
+          shape: guessedBiscuit.shape === target.shape,
           manufacturer: guessedBiscuit.manufacturer === target.manufacturer,
           category: guessedBiscuit.category === target.category,
+          origin: guessedBiscuit.origin === target.origin,
         };
 
         const guess: Guess = {
@@ -91,9 +94,10 @@ export const useGameStore = create<GameState>()(
         const newAttempts = state.attempts + 1;
 
         const newRevealedClues = { ...state.revealedClues };
-        if (matches.dietary) newRevealedClues.dietary = true;
+        if (matches.shape) newRevealedClues.shape = true;
         if (matches.manufacturer) newRevealedClues.manufacturer = true;
         if (matches.category) newRevealedClues.category = true;
+        if (matches.origin) newRevealedClues.origin = true;
 
         let newStatus: GameStatus = 'playing';
         if (isCorrect) {

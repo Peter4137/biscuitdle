@@ -45,3 +45,6 @@ coverage/
 # Misc
 *.pem
 .cache/
+
+# Scripts (local utilities, not needed in repo)
+scripts/

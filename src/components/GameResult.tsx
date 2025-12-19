@@ -1,12 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useGameStore } from "../store/gameStore";
-import { getTimeUntilNextBiscuit } from "../data/biscuits";
+import { getTimeUntilNextBiscuit, getDailyImageIndex } from "../data/biscuits";
+
+const FALLBACK_IMAGE = "https://placehold.co/400x400/D4A574/6B4423?text=🍪";
 
 function GameResult() {
   const { gameStatus, targetBiscuit, attempts, guesses } = useGameStore();
   const [countdown, setCountdown] = useState("");
   const [copied, setCopied] = useState(false);
+
+  const dailyImage = useMemo(() => {
+    if (targetBiscuit.images.length === 0) return FALLBACK_IMAGE;
+    const index = getDailyImageIndex(targetBiscuit.images.length);
+    return targetBiscuit.images[index];
+  }, [targetBiscuit]);
 
   useEffect(() => {
     const updateCountdown = () => {
@@ -27,15 +35,16 @@ function GameResult() {
       .map((g) => {
         if (g.isCorrect) return "🍪";
         const matches = [
-          g.matches.dietary ? "🟢" : "⚪",
+          g.matches.shape ? "🟢" : "⚪",
           g.matches.manufacturer ? "🟢" : "⚪",
           g.matches.category ? "🟢" : "⚪",
+          g.matches.origin ? "🟢" : "⚪",
         ].join("");
         return matches;
       })
       .join("\n");
 
-    const text = `🇬🇧 Crumbdle 🍪
+    const text = `🌍 Crumbdle 🍪
 ${gameStatus === "won" ? `Solved in ${attempts}/6!` : "Better luck tomorrow!"}
 
 ${emojiGrid}
@@ -80,7 +89,7 @@ Play at: crumbdle.com`;
 
         <div className="result-biscuit">
           <motion.img
-            src={targetBiscuit.image}
+            src={dailyImage}
             alt={targetBiscuit.name}
             className="result-image"
             initial={{ rotate: -5 }}

@@ -1,17 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useGameStore } from "../store/gameStore";
+import { getDailyImageIndex } from "../data/biscuits";
 
 const FALLBACK_IMAGE = "https://placehold.co/400x400/D4A574/6B4423?text=🍪";
 
 function BiscuitViewer() {
   const { targetBiscuit, getCurrentZoom, gameStatus } = useGameStore();
-  const [imageSrc, setImageSrc] = useState(targetBiscuit.image);
+  
+  const dailyImage = useMemo(() => {
+    if (targetBiscuit.images.length === 0) return FALLBACK_IMAGE;
+    const index = getDailyImageIndex(targetBiscuit.images.length);
+    return targetBiscuit.images[index];
+  }, [targetBiscuit]);
+  
+  const [imageSrc, setImageSrc] = useState(dailyImage);
   const zoom = getCurrentZoom();
 
   useEffect(() => {
-    setImageSrc(targetBiscuit.image);
-  }, [targetBiscuit]);
+    setImageSrc(dailyImage);
+  }, [dailyImage]);
 
   const scale = gameStatus === "playing" ? zoom : 1;
 

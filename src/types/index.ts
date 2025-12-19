@@ -3,24 +3,27 @@ export interface Biscuit {
   name: string;
   manufacturer: string;
   category: string;
-  dietary: string[];
-  image: string;
+  shape: string;
+  images: string[];
+  origin: string;
 }
 
 export interface Guess {
   name: string;
   isCorrect: boolean;
   matches: {
-    dietary: boolean;
+    shape: boolean;
     manufacturer: boolean;
     category: boolean;
+    origin: boolean;
   };
 }
 
 export interface RevealedClues {
-  dietary: boolean;
+  shape: boolean;
   manufacturer: boolean;
   category: boolean;
+  origin: boolean;
 }
 
 export type GameStatus = 'playing' | 'won' | 'lost';
