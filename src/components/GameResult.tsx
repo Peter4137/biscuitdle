@@ -5,6 +5,42 @@ import { getTimeUntilNextBiscuit, getDailyImageIndex } from "../data/biscuits";
 
 const FALLBACK_IMAGE = "https://placehold.co/400x400/D4A574/6B4423?text=🍪";
 
+const WINNING_PUNS = [
+  "You're one smart cookie!",
+  "That was a crumby good guess!",
+  "You really take the biscuit!",
+  "Absolutely biscuit-tastic!",
+  "You've got the whole package!",
+  "That's the way the cookie crumbles... in your favour!",
+  "You're on a roll... a fig roll!",
+  "Sweet victory, just like a Jammie Dodger!",
+  "You've dunked on this challenge!",
+  "Wafer you waiting for? You nailed it!",
+  "You're the cream of the biscuit barrel!",
+  "That's how you crumble!",
+  "You've really risen to the occasion!",
+  "Biscuit-ively brilliant!",
+  "You've got great taste... in biscuits!",
+];
+
+const LOSING_PUNS = [
+  "That's the way the cookie crumbles...",
+  "You've been left feeling crumby!",
+  "Better batter luck next time!",
+  "That was a tough cookie to crack!",
+  "You've had your chips... ahoy!",
+  "Don't let it leave you feeling half-baked!",
+  "You'll bounce back like a Bourbon!",
+  "Time to dust off those crumbs and try again!",
+  "Even the best biscuits break sometimes!",
+  "You've been caught with your hand in the wrong jar!",
+  "That one really took the biscuit... away from you!",
+  "Crumbs! Better luck tomorrow!",
+  "You've been left feeling shortbread of victory!",
+  "Don't be a digestive about it!",
+  "Sometimes life serves you stale biscuits!",
+];
+
 function GameResult() {
   const { gameStatus, targetBiscuit, attempts, guesses } = useGameStore();
   const [countdown, setCountdown] = useState("");
@@ -15,6 +51,11 @@ function GameResult() {
     const index = getDailyImageIndex(targetBiscuit.images.length);
     return targetBiscuit.images[index];
   }, [targetBiscuit]);
+
+  const randomPun = useMemo(() => {
+    const puns = gameStatus === "won" ? WINNING_PUNS : LOSING_PUNS;
+    return puns[Math.floor(Math.random() * puns.length)];
+  }, [gameStatus]);
 
   useEffect(() => {
     const updateCountdown = () => {
@@ -76,15 +117,29 @@ Play at: crumbdle.com`;
         transition={{ type: "spring", duration: 0.5 }}
       >
         <h2 className={`result-title ${isWon ? "won" : "lost"}`}>
-          {isWon ? "🎉 Jolly Good Show! 🎉" : "😢 Oh Crumbs! 😢"}
+          {isWon ? (
+            <>
+              <span className="result-emojis">🎉 🍪 🎊</span>
+              <span>Jolly Good Show!</span>
+              <span className="result-emojis">🏆 🇬🇧 ✨</span>
+            </>
+          ) : (
+            <>
+              <span className="result-emojis">😢 💔 🍪</span>
+              <span>Oh Crumbs!</span>
+              <span className="result-emojis">😭 🫠 💫</span>
+            </>
+          )}
         </h2>
+
+        <p className="result-pun">{randomPun}</p>
 
         <p className="result-message">
           {isWon
-            ? `Smashing! You identified today's biscuit in ${attempts} ${
+            ? `You identified today's biscuit in ${attempts} ${
                 attempts === 1 ? "guess" : "guesses"
               }!`
-            : "Frightfully sorry, but you've run out of guesses. Better luck tomorrow, old chap!"}
+            : "Frightfully sorry, but you've run out of guesses. Chin up, old chap!"}
         </p>
 
         <div className="result-biscuit">
