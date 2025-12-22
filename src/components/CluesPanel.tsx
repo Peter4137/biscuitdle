@@ -1,13 +1,8 @@
-import { motion } from 'framer-motion';
-import { useGameStore } from '../store/gameStore';
+import { motion } from "framer-motion";
+import { useGameStore } from "../store/gameStore";
 
 function CluesPanel() {
   const { revealedClues, targetBiscuit } = useGameStore();
-
-  const formatDietary = (dietary: string[]): string => {
-    if (dietary.length === 0) return 'None';
-    return dietary.join(', ');
-  };
 
   return (
     <div className="clues-panel">
@@ -17,35 +12,48 @@ function CluesPanel() {
       </h2>
       <div className="clue-grid">
         <motion.div
-          className={`clue-item ${revealedClues.dietary ? 'revealed' : ''}`}
-          animate={revealedClues.dietary ? { scale: [1, 1.05, 1] } : {}}
+          className={`clue-item ${revealedClues.shape ? "revealed" : ""}`}
+          animate={revealedClues.shape ? { scale: [1, 1.05, 1] } : {}}
           transition={{ duration: 0.4 }}
         >
-          <span className="clue-label">Dietary</span>
+          <span className="clue-label">Shape</span>
           <span className="clue-value">
-            {revealedClues.dietary ? formatDietary(targetBiscuit.dietary) : '???'}
+            {revealedClues.shape ? targetBiscuit.shape : "???"}
           </span>
         </motion.div>
 
         <motion.div
-          className={`clue-item ${revealedClues.manufacturer ? 'revealed' : ''}`}
+          className={`clue-item ${
+            revealedClues.manufacturer ? "revealed" : ""
+          }`}
           animate={revealedClues.manufacturer ? { scale: [1, 1.05, 1] } : {}}
           transition={{ duration: 0.4 }}
         >
           <span className="clue-label">Manufacturer</span>
           <span className="clue-value">
-            {revealedClues.manufacturer ? targetBiscuit.manufacturer : '???'}
+            {revealedClues.manufacturer ? targetBiscuit.manufacturer : "???"}
           </span>
         </motion.div>
 
         <motion.div
-          className={`clue-item ${revealedClues.category ? 'revealed' : ''}`}
+          className={`clue-item ${revealedClues.category ? "revealed" : ""}`}
           animate={revealedClues.category ? { scale: [1, 1.05, 1] } : {}}
           transition={{ duration: 0.4 }}
         >
           <span className="clue-label">Category</span>
           <span className="clue-value">
-            {revealedClues.category ? targetBiscuit.category : '???'}
+            {revealedClues.category ? targetBiscuit.category : "???"}
+          </span>
+        </motion.div>
+
+        <motion.div
+          className={`clue-item ${revealedClues.origin ? "revealed" : ""}`}
+          animate={revealedClues.origin ? { scale: [1, 1.05, 1] } : {}}
+          transition={{ duration: 0.4 }}
+        >
+          <span className="clue-label">Origin</span>
+          <span className="clue-value">
+            {revealedClues.origin ? targetBiscuit.origin : "???"}
           </span>
         </motion.div>
       </div>
@@ -54,4 +62,3 @@ function CluesPanel() {
 }
 
 export default CluesPanel;
-
