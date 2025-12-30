@@ -234,7 +234,7 @@ export const BISCUITS: Biscuit[] = [
     manufacturer: "McVitie's",
     category: 'Chocolate',
     shape: 'Round',
-    images: ['https://upload.wikimedia.org/wikipedia/commons/c/c7/Caramel_digestive_biscuit.jpg'],
+    images: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhGbmhjRvgzFguCZuMf5l5wZpEHWNs-RAYPg&s'],
     origin: 'United Kingdom',
   },
   {
