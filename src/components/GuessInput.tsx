@@ -14,8 +14,9 @@ function GuessInput() {
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLUListElement>(null);
 
-  const { makeGuess, attempts, gameStatus } = useGameStore();
+  const { makeGuess, useHint, canUseHint, attempts, gameStatus } = useGameStore();
   const allBiscuits = getAllBiscuitNames();
+  const [hintMessage, setHintMessage] = useState('');
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -101,20 +102,50 @@ function GuessInput() {
 
   const isDisabled = gameStatus !== 'playing' || attempts >= MAX_ATTEMPTS;
 
+  const handleUseHint = () => {
+    const result = useHint();
+    if (result && 'error' in result) {
+      setError(result.error);
+      return;
+    }
+    if (result && 'revealed' in result) {
+      const clueNames: Record<string, string> = {
+        shape: 'Shape',
+        manufacturer: 'Manufacturer',
+        category: 'Category',
+        origin: 'Origin',
+      };
+      setHintMessage(`☕ ${clueNames[result.revealed]} revealed!`);
+      setTimeout(() => setHintMessage(''), 2000);
+    }
+  };
+
   return (
     <div className="guess-section">
-      <AnimatePresence>
-        {error && (
-          <motion.div
-            className="error-message"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-          >
-            {error}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div className="message-container">
+        <AnimatePresence>
+          {error && (
+            <motion.div
+              className="error-message"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+            >
+              {error}
+            </motion.div>
+          )}
+          {hintMessage && (
+            <motion.div
+              className="hint-message"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+            >
+              {hintMessage}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
 
       <div className="guess-input-container">
         <div className="suggestions-container">
@@ -163,6 +194,15 @@ function GuessInput() {
           disabled={isDisabled || !input.trim()}
         >
           Have a Guess!
+        </button>
+
+        <button
+          className="btn-hint"
+          onClick={handleUseHint}
+          disabled={isDisabled || !canUseHint()}
+          title="Use a hint (costs 1 guess)"
+        >
+          <span className="hint-icon">🫖</span> Hint
         </button>
       </div>
 

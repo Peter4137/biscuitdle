@@ -76,6 +76,7 @@ function GameResult() {
     const emojiGrid = guesses
       .map((g) => {
         if (g.isCorrect) return "🍪";
+        if (g.isHint) return "☕";
         const matches = [
           g.matches.shape ? "🟢" : "⚪",
           g.matches.manufacturer ? "🟢" : "⚪",

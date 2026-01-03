@@ -11,6 +11,8 @@ export interface Biscuit {
 export interface Guess {
   name: string;
   isCorrect: boolean;
+  isHint?: boolean;
+  hintRevealed?: keyof RevealedClues;
   matches: {
     shape: boolean;
     manufacturer: boolean;

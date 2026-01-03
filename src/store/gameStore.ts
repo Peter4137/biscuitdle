@@ -31,12 +31,15 @@ interface GameState {
   targetBiscuit: Biscuit;
   guesses: Guess[];
   attempts: number;
+  hintsUsed: number;
   gameStatus: GameStatus;
   revealedClues: RevealedClues;
   stats: PlayerStats;
   initGame: () => void;
   makeGuess: (guessName: string) => Guess | { error: string } | null;
+  useHint: () => { error: string } | { revealed: keyof RevealedClues } | null;
   getCurrentZoom: () => number;
+  canUseHint: () => boolean;
 }
 
 export const useGameStore = create<GameState>()(
@@ -46,6 +49,7 @@ export const useGameStore = create<GameState>()(
       targetBiscuit: getDailyBiscuit(),
       guesses: [],
       attempts: 0,
+      hintsUsed: 0,
       gameStatus: 'playing',
       revealedClues: {
         shape: false,
@@ -69,6 +73,7 @@ export const useGameStore = create<GameState>()(
             targetBiscuit: getDailyBiscuit(),
             guesses: [],
             attempts: 0,
+            hintsUsed: 0,
             gameStatus: 'playing',
             revealedClues: {
               shape: false,
@@ -176,6 +181,94 @@ export const useGameStore = create<GameState>()(
         return guess;
       },
 
+      canUseHint: () => {
+        const state = get();
+        if (state.gameStatus !== 'playing') return false;
+        if (state.attempts >= MAX_ATTEMPTS) return false;
+        
+        const unrevealedClues = (['shape', 'manufacturer', 'category', 'origin'] as const)
+          .filter(key => !state.revealedClues[key]);
+        
+        return unrevealedClues.length > 0;
+      },
+
+      useHint: () => {
+        const state = get();
+        
+        if (state.gameStatus !== 'playing') {
+          return { error: 'Game is already over!' };
+        }
+        
+        if (state.attempts >= MAX_ATTEMPTS) {
+          return { error: 'No attempts remaining!' };
+        }
+
+        const unrevealedClues = (['shape', 'manufacturer', 'category', 'origin'] as const)
+          .filter(key => !state.revealedClues[key]);
+
+        if (unrevealedClues.length === 0) {
+          return { error: 'All clues already revealed!' };
+        }
+
+        const randomClue = unrevealedClues[Math.floor(Math.random() * unrevealedClues.length)];
+        
+        const hintGuess: Guess = {
+          name: '☕ Cuppa Tea Hint',
+          isCorrect: false,
+          isHint: true,
+          hintRevealed: randomClue,
+          matches: {
+            shape: false,
+            manufacturer: false,
+            category: false,
+            origin: false,
+          },
+        };
+
+        const newRevealedClues = { ...state.revealedClues };
+        newRevealedClues[randomClue] = true;
+
+        const newAttempts = state.attempts + 1;
+        const newGuesses = [...state.guesses, hintGuess];
+
+        let newStatus: GameStatus = 'playing';
+        if (newAttempts >= MAX_ATTEMPTS) {
+          newStatus = 'lost';
+        }
+
+        let newStats = state.stats;
+        
+        if (newStatus === 'lost') {
+          const dailyResult: DailyResult = {
+            dateKey: state.dateKey,
+            won: false,
+            guesses: newAttempts,
+            biscuitName: state.targetBiscuit.name,
+          };
+
+          newStats = {
+            ...state.stats,
+            gamesPlayed: state.stats.gamesPlayed + 1,
+            currentStreak: 0,
+            history: {
+              ...state.stats.history,
+              [state.dateKey]: dailyResult,
+            },
+          };
+        }
+
+        set({
+          guesses: newGuesses,
+          attempts: newAttempts,
+          hintsUsed: state.hintsUsed + 1,
+          revealedClues: newRevealedClues,
+          gameStatus: newStatus,
+          stats: newStats,
+        });
+
+        return { revealed: randomClue };
+      },
+
       getCurrentZoom: () => {
         const state = get();
         return ZOOM_LEVELS[Math.min(state.attempts, ZOOM_LEVELS.length - 1)];
@@ -187,6 +280,7 @@ export const useGameStore = create<GameState>()(
         dateKey: state.dateKey,
         guesses: state.guesses,
         attempts: state.attempts,
+        hintsUsed: state.hintsUsed,
         gameStatus: state.gameStatus,
         revealedClues: state.revealedClues,
         stats: state.stats,
