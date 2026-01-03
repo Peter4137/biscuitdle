@@ -42,7 +42,8 @@ const LOSING_PUNS = [
 ];
 
 function GameResult() {
-  const { gameStatus, targetBiscuit, attempts, guesses, stats } = useGameStore();
+  const { gameStatus, targetBiscuit, attempts, guesses, stats } =
+    useGameStore();
   const [countdown, setCountdown] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -161,9 +162,10 @@ Play at: crumbdle.com`;
           </div>
           <div className="stat-item">
             <span className="stat-value">
-              {stats.gamesPlayed > 0 
-                ? Math.round((stats.gamesWon / stats.gamesPlayed) * 100) 
-                : 0}%
+              {stats.gamesPlayed > 0
+                ? Math.round((stats.gamesWon / stats.gamesPlayed) * 100)
+                : 0}
+              %
             </span>
             <span className="stat-label">Win Rate</span>
           </div>

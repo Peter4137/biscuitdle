@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { Analytics } from '@vercel/analytics/react';
 import { useGameStore } from './store/gameStore';
 import Header from './components/Header';
 import BiscuitViewer from './components/BiscuitViewer';
@@ -35,6 +36,7 @@ function App() {
           {gameStatus !== 'playing' && <GameResult />}
         </AnimatePresence>
       </div>
+      <Analytics />
     </>
   );
 }
