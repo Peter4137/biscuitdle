@@ -572,6 +572,39 @@ body {
   color: var(--royal-blue);
 }
 
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+  padding: 16px;
+  background: linear-gradient(145deg, #f8f5f0 0%, #ebe6dc 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(139, 90, 43, 0.15);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--royal-blue);
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  color: var(--tea-brown);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
 .countdown {
   margin-top: 18px;
   font-size: 0.9rem;

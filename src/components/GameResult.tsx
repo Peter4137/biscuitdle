@@ -42,7 +42,7 @@ const LOSING_PUNS = [
 ];
 
 function GameResult() {
-  const { gameStatus, targetBiscuit, attempts, guesses } = useGameStore();
+  const { gameStatus, targetBiscuit, attempts, guesses, stats } = useGameStore();
   const [countdown, setCountdown] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -152,6 +152,29 @@ Play at: crumbdle.com`;
             transition={{ duration: 2, repeat: Infinity }}
           />
           <p className="result-name">{targetBiscuit.name}</p>
+        </div>
+
+        <div className="stats-grid">
+          <div className="stat-item">
+            <span className="stat-value">{stats.gamesPlayed}</span>
+            <span className="stat-label">Played</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-value">
+              {stats.gamesPlayed > 0 
+                ? Math.round((stats.gamesWon / stats.gamesPlayed) * 100) 
+                : 0}%
+            </span>
+            <span className="stat-label">Win Rate</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-value">{stats.currentStreak}</span>
+            <span className="stat-label">Current Streak</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-value">{stats.maxStreak}</span>
+            <span className="stat-label">Best Streak</span>
+          </div>
         </div>
 
         <button className="btn-share" onClick={handleShare}>

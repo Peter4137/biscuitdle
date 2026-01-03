@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { getDailyBiscuit, getBiscuitByName } from '../data/biscuits';
-import type { Biscuit, Guess, RevealedClues, GameStatus } from '../types';
+import type { Biscuit, Guess, RevealedClues, GameStatus, PlayerStats, DailyResult } from '../types';
 
 const MAX_ATTEMPTS = 6;
 const ZOOM_LEVELS = [10, 8, 6, 4, 2, 1];
@@ -11,6 +11,21 @@ const getDateKey = (): string => {
   return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 };
 
+const getYesterdayKey = (): string => {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  return `${yesterday.getFullYear()}-${yesterday.getMonth() + 1}-${yesterday.getDate()}`;
+};
+
+const createEmptyStats = (): PlayerStats => ({
+  gamesPlayed: 0,
+  gamesWon: 0,
+  currentStreak: 0,
+  maxStreak: 0,
+  guessDistribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
+  history: {},
+});
+
 interface GameState {
   dateKey: string;
   targetBiscuit: Biscuit;
@@ -18,6 +33,7 @@ interface GameState {
   attempts: number;
   gameStatus: GameStatus;
   revealedClues: RevealedClues;
+  stats: PlayerStats;
   initGame: () => void;
   makeGuess: (guessName: string) => Guess | { error: string } | null;
   getCurrentZoom: () => number;
@@ -37,12 +53,17 @@ export const useGameStore = create<GameState>()(
         category: false,
         origin: false,
       },
+      stats: createEmptyStats(),
 
       initGame: () => {
         const currentDateKey = getDateKey();
         const state = get();
 
         if (state.dateKey !== currentDateKey) {
+          const yesterdayKey = getYesterdayKey();
+          const playedYesterday = state.stats.history[yesterdayKey];
+          const streakBroken = !playedYesterday || !playedYesterday.won;
+          
           set({
             dateKey: currentDateKey,
             targetBiscuit: getDailyBiscuit(),
@@ -54,6 +75,10 @@ export const useGameStore = create<GameState>()(
               manufacturer: false,
               category: false,
               origin: false,
+            },
+            stats: {
+              ...state.stats,
+              currentStreak: streakBroken ? 0 : state.stats.currentStreak,
             },
           });
         }
@@ -106,11 +131,46 @@ export const useGameStore = create<GameState>()(
           newStatus = 'lost';
         }
 
+        let newStats = state.stats;
+        
+        if (newStatus !== 'playing') {
+          const dailyResult: DailyResult = {
+            dateKey: state.dateKey,
+            won: newStatus === 'won',
+            guesses: newAttempts,
+            biscuitName: target.name,
+          };
+
+          const newHistory = {
+            ...state.stats.history,
+            [state.dateKey]: dailyResult,
+          };
+
+          const newCurrentStreak = newStatus === 'won' 
+            ? state.stats.currentStreak + 1 
+            : 0;
+
+          const newGuessDistribution = { ...state.stats.guessDistribution };
+          if (newStatus === 'won') {
+            newGuessDistribution[newAttempts] = (newGuessDistribution[newAttempts] || 0) + 1;
+          }
+
+          newStats = {
+            gamesPlayed: state.stats.gamesPlayed + 1,
+            gamesWon: state.stats.gamesWon + (newStatus === 'won' ? 1 : 0),
+            currentStreak: newCurrentStreak,
+            maxStreak: Math.max(state.stats.maxStreak, newCurrentStreak),
+            guessDistribution: newGuessDistribution,
+            history: newHistory,
+          };
+        }
+
         set({
           guesses: newGuesses,
           attempts: newAttempts,
           revealedClues: newRevealedClues,
           gameStatus: newStatus,
+          stats: newStats,
         });
 
         return guess;
@@ -129,6 +189,7 @@ export const useGameStore = create<GameState>()(
         attempts: state.attempts,
         gameStatus: state.gameStatus,
         revealedClues: state.revealedClues,
+        stats: state.stats,
       }),
     }
   )
