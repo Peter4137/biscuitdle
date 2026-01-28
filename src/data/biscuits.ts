@@ -252,45 +252,45 @@ export const BISCUITS: Biscuit[] = [
     manufacturer: 'Cadbury',
     category: 'Chocolate',
     shape: 'Finger',
-    images: ['https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Cadbury_Fingers.jpg/500px-Cadbury_Fingers.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/2/2c/Cadbury_Fingers.jpg'],
     origin: 'United Kingdom',
   },
-  {
-    id: 'chocolate-custard-cream',
-    name: 'Chocolate Custard Cream',
-    manufacturer: 'Unbranded',
-    category: 'Sandwich',
-    shape: 'Rectangular',
-    images: ['https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Chocolate_custard_cream_biscuit.jpg/500px-Chocolate_custard_cream_biscuit.jpg'],
-    origin: 'United Kingdom',
-  },
+  // {
+  //   id: 'chocolate-custard-cream',
+  //   name: 'Chocolate Custard Cream',
+  //   manufacturer: 'Unbranded',
+  //   category: 'Sandwich',
+  //   shape: 'Rectangular',
+  //   images: [],  // No Wikimedia Commons image available
+  //   origin: 'United Kingdom',
+  // },
   {
     id: 'twix',
     name: 'Twix',
     manufacturer: 'Mars',
     category: 'Chocolate',
     shape: 'Finger',
-    images: ['https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Twix-Caramel-Cookie-Bars.jpg/500px-Twix-Caramel-Cookie-Bars.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/e/e3/Twix-broken.jpg'],
     origin: 'United Kingdom',
   },
-  {
-    id: 'gold-bar',
-    name: 'Gold Bar',
-    manufacturer: "McVitie's",
-    category: 'Chocolate',
-    shape: 'Rectangular',
-    images: ['https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/McVitie%27s_Gold_bar.jpg/500px-McVitie%27s_Gold_bar.jpg'],
-    origin: 'United Kingdom',
-  },
-  {
-    id: 'viennese',
-    name: 'Viennese',
-    manufacturer: "Fox's",
-    category: 'Shortbread',
-    shape: 'Finger',
-    images: ['https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Viennese_fingers.jpg/500px-Viennese_fingers.jpg'],
-    origin: 'United Kingdom',
-  },
+  // {
+  //   id: 'gold-bar',
+  //   name: 'Gold Bar',
+  //   manufacturer: "McVitie's",
+  //   category: 'Chocolate',
+  //   shape: 'Rectangular',
+  //   images: [],  // No Wikimedia Commons image available
+  //   origin: 'United Kingdom',
+  // },
+  // {
+  //   id: 'viennese',
+  //   name: 'Viennese',
+  //   manufacturer: "Fox's",
+  //   category: 'Shortbread',
+  //   shape: 'Finger',
+  //   images: [],  // No Wikimedia Commons image available
+  //   origin: 'United Kingdom',
+  // },
 
   // === UNITED STATES ===
   {
@@ -299,7 +299,7 @@ export const BISCUITS: Biscuit[] = [
     manufacturer: 'Nabisco',
     category: 'Sandwich',
     shape: 'Round',
-    images: ['https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Oreo_cookies.jpg/500px-Oreo_cookies.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/3/3e/Oreo-Two-Cookies.jpg'],
     origin: 'United States',
   },
   {
