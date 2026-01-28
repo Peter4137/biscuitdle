@@ -282,15 +282,15 @@ export const BISCUITS: Biscuit[] = [
   //   images: [],  // No Wikimedia Commons image available
   //   origin: 'United Kingdom',
   // },
-  // {
-  //   id: 'viennese',
-  //   name: 'Viennese',
-  //   manufacturer: "Fox's",
-  //   category: 'Shortbread',
-  //   shape: 'Finger',
-  //   images: [],  // No Wikimedia Commons image available
-  //   origin: 'United Kingdom',
-  // },
+  {
+    id: 'viennese',
+    name: 'Viennese',
+    manufacturer: "Fox's",
+    category: 'Shortbread',
+    shape: 'Finger',
+    images: ['https://upload.wikimedia.org/wikipedia/commons/3/35/Chocolate_Viennese_fingers_01.jpg'],
+    origin: 'United Kingdom',
+  },
 
   // === UNITED STATES ===
   {
