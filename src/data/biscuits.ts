@@ -283,8 +283,8 @@ export const BISCUITS: Biscuit[] = [
   //   origin: 'United Kingdom',
   // },
   {
-    id: 'viennese',
-    name: 'Viennese',
+    id: 'chocolate-viennese-fingers',
+    name: 'Chocolate Viennese Fingers',
     manufacturer: "Fox's",
     category: 'Shortbread',
     shape: 'Finger',
