@@ -273,15 +273,15 @@ export const BISCUITS: Biscuit[] = [
     images: ['https://upload.wikimedia.org/wikipedia/commons/e/e3/Twix-broken.jpg'],
     origin: 'United Kingdom',
   },
-  // {
-  //   id: 'gold-bar',
-  //   name: 'Gold Bar',
-  //   manufacturer: "McVitie's",
-  //   category: 'Chocolate',
-  //   shape: 'Rectangular',
-  //   images: [],  // No Wikimedia Commons image available
-  //   origin: 'United Kingdom',
-  // },
+  {
+    id: 'gold-bar',
+    name: 'Gold Bar',
+    manufacturer: "McVitie's",
+    category: 'Chocolate',
+    shape: 'Rectangular',
+    images: ['https://www.thesun.co.uk/wp-content/uploads/2025/01/gold.jpg?strip=all&w=960'],
+    origin: 'United Kingdom',
+  },
   {
     id: 'chocolate-viennese-fingers',
     name: 'Chocolate Viennese Fingers',
