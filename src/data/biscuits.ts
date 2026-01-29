@@ -255,15 +255,15 @@ export const BISCUITS: Biscuit[] = [
     images: ['https://upload.wikimedia.org/wikipedia/commons/2/2c/Cadbury_Fingers.jpg'],
     origin: 'United Kingdom',
   },
-  // {
-  //   id: 'chocolate-custard-cream',
-  //   name: 'Chocolate Custard Cream',
-  //   manufacturer: 'Unbranded',
-  //   category: 'Sandwich',
-  //   shape: 'Rectangular',
-  //   images: [],  // No Wikimedia Commons image available
-  //   origin: 'United Kingdom',
-  // },
+  {
+    id: 'chocolate-custard-cream',
+    name: 'Chocolate Custard Cream',
+    manufacturer: 'M&S',
+    category: 'Sandwich',
+    shape: 'Rectangular',
+    images: ['https://assets.digitalcontent.marksandspencer.app/image/upload/w_2560,q_auto,c_fill,f_auto/cc4c41faf8d3c8cc56d491a62e4aa7c2.jpg'],
+    origin: 'United Kingdom',
+  },
   {
     id: 'twix',
     name: 'Twix',
